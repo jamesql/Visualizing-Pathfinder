@@ -1,4 +1,4 @@
-package live.xjames.framew;
+//package live.xjames.framew;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
