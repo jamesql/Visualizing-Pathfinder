@@ -88,9 +88,15 @@ public class window extends JFrame implements ActionListener {
 		int currentButton[][] = new int[1][2];
 		currentButton[0][0] = endStart[0][0];
 		currentButton[0][1] = endStart[0][1];
-		while (currentButton [0][0] != endStart[1][1] && currentButton [0][1] != endStart[1][0])
+		boolean fin = false;
+		while (!fin)
 		{
 			// TODO : ADD DIAGANOLS
+			
+			if (currentButton [0][0] == endStart[1][1] && currentButton [0][1] == endStart[1][0]){
+				fin = true;
+				continue;
+			}
 			
 		double distanceRight = Math.sqrt(((currentButton[0][0] + 1 - endStart[1][0]) * (currentButton[0][0] + 1 - endStart[1][0])) + ((currentButton[0][1] - endStart[1][1]) * (currentButton[0][1] - endStart[1][1])));
 		double distanceLeft =  Math.sqrt(((currentButton[0][0] - 1 - endStart[1][0]) * (currentButton[0][0] - 1 - endStart[1][0])) + ((currentButton[0][1] - endStart[1][1]) * (currentButton[0][1] - endStart[1][1])));
