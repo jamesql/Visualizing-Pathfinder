@@ -1,4 +1,4 @@
-//package live.xjames.framew;
+package live.xjames.framew;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -29,11 +29,11 @@ public class pathfinder extends JFrame implements ActionListener {
 	}
 	
 	public void init() {
-		super.setBounds(50, 50, 400, 400);
+		super.setBounds(50, 50, 775, 625);
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		super.setLayout(null);
 		initButtons();
-		startButton.setBounds(50, 725, 300, 100);
+		startButton.setBounds(625, 0, 150, 50);
 		startButton.addActionListener(this);
 		super.getContentPane().add(startButton);
 		appear();
@@ -102,11 +102,12 @@ public class pathfinder extends JFrame implements ActionListener {
 			currentButton[0][1] += 1;
 		else if (distanceBottom < distanceTop && distanceBottom < distanceRight && distanceBottom < distanceLeft && !checkWall(currentButton[0][0], currentButton[0][1] - 1)) 
 			currentButton[0][1] -= 1;
-		else
+		else if (!checkWall(currentButton[0][0] - 1, currentButton[0][1]))
 			currentButton[0][0] -= 1;
 		
 		b[currentButton[0][0]][currentButton[0][1]].setBackground(Color.BLUE);
 		}
+		System.out.println("Ended On : " + currentButton[0][0] + "," + currentButton[0][1]);
 	}
 	
 	public boolean checkWall(int x, int y) {
