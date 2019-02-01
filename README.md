@@ -3,4 +3,5 @@
 ## Efficiency
 Takes about 0-4ms (25x25 grid)
 
-![img](http://prntscr.com/mf20zx)
+Screenshots :
+http://prntscr.com/mf20zx
