@@ -4,11 +4,14 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class pathfinder extends JFrame implements ActionListener {
+public class window extends JFrame implements ActionListener {
 
 	private static String windowName = "Pathfinder";
 	private JButton[][] b = new JButton[25][25]; 
@@ -20,10 +23,10 @@ public class pathfinder extends JFrame implements ActionListener {
 	private JButton startButton = new JButton("Start Pathfinder!");
 	
 	public static void main(String[] args) {
-		pathfinder m = new pathfinder();
+		window m = new window();
 	}
 	
-	public pathfinder() {
+	public window() {
 		super(windowName);
 		init();
 	}
@@ -106,18 +109,17 @@ public class pathfinder extends JFrame implements ActionListener {
 		System.out.println("DIS Right : " + distanceRight + "\n" + "DIS Left : " + distanceLeft + "\n" + "DIS Top : " + distanceTop + "\n" + "DIS Bottom : " + distanceBottom + "\n");
 		
 		if (distanceRight <= distanceLeft && distanceRight <= distanceTop && distanceRight <= distanceBottom && !checkWall(currentButton[0][1] + 1, currentButton[0][0]))
-				currentButton[0][1] += 1;
-		else if (distanceTop <= distanceBottom && distanceTop <= distanceRight && distanceTop <= distanceLeft && !checkWall(currentButton[0][1], currentButton[0][0] + 1))
-			currentButton[0][0] += 1;
-		else if (distanceBottom <= distanceTop && distanceBottom <= distanceRight && distanceBottom <= distanceLeft && !checkWall(currentButton[0][1], currentButton[0][0] - 1)) 
-			currentButton[0][0] -= 1;
-		else if (!checkWall(currentButton[0][1] - 1, currentButton[0][0]))
-			currentButton[0][1] -= 1;
+			currentButton[0][1] += 1;
+	else if (distanceTop <= distanceBottom && distanceTop <= distanceLeft && !checkWall(currentButton[0][1], currentButton[0][0] + 1))
+		currentButton[0][0] += 1;
+	else if (distanceBottom <= distanceRight && distanceBottom <= distanceLeft && !checkWall(currentButton[0][1], currentButton[0][0] - 1)) 
+		currentButton[0][0] -= 1;
+	else if (!checkWall(currentButton[0][1] - 1, currentButton[0][0]))
+		currentButton[0][1] -= 1;
+		
 		System.out.println(currentButton[0][1] + "," + currentButton[0][0]);
-		if (currentButton[0][0] > -1 && currentButton[0][0] < 25 && currentButton[0][1] > -1 && currentButton[0][1] < 25)
 		b[currentButton[0][0]][currentButton[0][1]].setBackground(Color.BLUE);
 				}
-		System.out.println("Ended On : " + currentButton[0][0] + "," + currentButton[0][1]);
 		System.out.println("FINISHED IN : " + (System.currentTimeMillis() - startTime) + "ms!");
 	}
 	
@@ -126,7 +128,7 @@ public class pathfinder extends JFrame implements ActionListener {
 		
 		for (int xs : wallsX)
 			for (int ys : wallsY){
-				if (xs == y && ys == x)
+				if (xs == x && ys == y)
 					hold = true;
 			}
 		return hold;
