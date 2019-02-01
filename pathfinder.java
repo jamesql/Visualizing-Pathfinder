@@ -85,6 +85,7 @@ public class pathfinder extends JFrame implements ActionListener {
 	}
 
 	public void calc() {
+		long startTime = System.currentTimeMillis();
 		int currentButton[][] = new int[1][2];
 		currentButton[0][0] = endStart[0][0]; //Y
 		currentButton[0][1] = endStart[0][1]; //X
@@ -117,6 +118,7 @@ public class pathfinder extends JFrame implements ActionListener {
 		b[currentButton[0][0]][currentButton[0][1]].setBackground(Color.BLUE);
 				}
 		System.out.println("Ended On : " + currentButton[0][0] + "," + currentButton[0][1]);
+		System.out.println("FINISHED IN : " + (System.currentTimeMillis() - startTime) + "ms!");
 	}
 	
 	public boolean checkWall(int x, int y) {
