@@ -3,6 +3,7 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +14,8 @@ public class pathfinder extends JFrame implements ActionListener {
 	private JButton[][] b = new JButton[25][25]; 
 	private int[][] ctr = new int[25][25];
 	private int[][] endStart = new int[2][2];
+	ArrayList<Integer> wallsX = new ArrayList<Integer>();
+	ArrayList<Integer> wallsY = new ArrayList<Integer>();
 	
 	private JButton startButton = new JButton("Start Pathfinder!");
 	
@@ -20,7 +23,7 @@ public class pathfinder extends JFrame implements ActionListener {
 		pathfinder m = new pathfinder();
 	}
 	
-	public window() {
+	public pathfinder() {
 		super(windowName);
 		init();
 	}
@@ -86,33 +89,57 @@ public class pathfinder extends JFrame implements ActionListener {
 		currentButton[0][0] = endStart[0][0];
 		currentButton[0][1] = endStart[0][1];
 		
-		while (currentButton [0][0] != endStart[1][0] && currentButton [0][1] != endStart[1][1] )
+		while (currentButton [0][0] != endStart[1][1] && currentButton [0][1] != endStart[1][0] )
 		{
 			// TODO : ADD DIAGANOLS
 		int distanceRight = (int) Math.sqrt(((currentButton[0][0] + 1 - endStart[1][0]) * (currentButton[0][0] + 1 - endStart[1][0])) + ((currentButton[0][1] - endStart[1][1]) * (currentButton[0][1] - endStart[1][1])));
 		int distanceLeft = (int) Math.sqrt(((currentButton[0][0] - 1 - endStart[1][0]) * (currentButton[0][0] - 1 - endStart[1][0])) + ((currentButton[0][1] - endStart[1][1]) * (currentButton[0][1] - endStart[1][1])));
 		int distanceTop = (int) Math.sqrt(((currentButton[0][0] - endStart[1][0]) * (currentButton[0][0] + 1 - endStart[1][0])) + ((currentButton[0][1] + 1 - endStart[1][1]) * (currentButton[0][1] - endStart[1][1])));
 		int distanceBottom = (int) Math.sqrt(((currentButton[0][0] - endStart[1][0]) * (currentButton[0][0] + 1 - endStart[1][0])) + ((currentButton[0][1] - 1 - endStart[1][1]) * (currentButton[0][1] - endStart[1][1])));
-		if (distanceRight < distanceLeft && distanceRight < distanceTop && distanceRight < distanceBottom )
+		if (distanceRight < distanceLeft && distanceRight < distanceTop && distanceRight < distanceBottom && !checkWall(currentButton[0][0] + 1, currentButton[0][1]))
 				currentButton[0][0] += 1;
-		else if (distanceTop < distanceBottom && distanceTop < distanceRight && distanceTop < distanceLeft )
+		else if (distanceTop < distanceBottom && distanceTop < distanceRight && distanceTop < distanceLeft && !checkWall(currentButton[0][0], currentButton[0][1] + 1))
 			currentButton[0][1] += 1;
-		else if (distanceBottom < distanceTop && distanceBottom < distanceRight && distanceBottom < distanceLeft) 
+		else if (distanceBottom < distanceTop && distanceBottom < distanceRight && distanceBottom < distanceLeft && !checkWall(currentButton[0][0], currentButton[0][1] - 1)) 
 			currentButton[0][1] -= 1;
 		else
 			currentButton[0][0] -= 1;
 		
 		b[currentButton[0][0]][currentButton[0][1]].setBackground(Color.BLUE);
 		}
+	}
+	
+	public boolean checkWall(int x, int y) {
+		boolean hold = false;
 		
-		
+		for (int xs : wallsX)
+			for (int ys : wallsY){
+				if (xs == x && ys == y)
+					hold = true;
+			}
+		return hold;
+	}
+	
+	public void removeWall(int x, int y) {
+		for (int xs = 0; xs < wallsX.size(); xs++) {
+			for (int ys = 0; ys < wallsY.size(); ys++) {
+				if (wallsX.get(xs) == x && wallsY.get(ys) == y){
+					wallsX.remove(xs);
+					wallsY.remove(ys);
+				}
+			}
+		}
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource().equals(startButton)) {
-			
+			for (int xx : wallsX) {
+				for (int yy : wallsY){
+					System.out.println("Wall Found : " + xx + "," + yy);
+				}
+			}
 			System.out.println("Starting Sim:\nStart : " + endStart[0][0] + " , " + endStart[0][1] + "\nEnd : " + endStart[1][0] + " , " + endStart[1][1]);
 			calc();
 		}
@@ -124,19 +151,24 @@ public class pathfinder extends JFrame implements ActionListener {
 					switch(ctr[row][col]) {
 						case 1:
 							makeWall(b[row][col]);
+							wallsX.add(col);
+							wallsY.add(row);
 							break;
 						case 2:
 							makeStart(b[row][col]);
 							endStart[0][0] = row;
 							endStart[0][1] = col;
+							if (checkWall(col, row)) removeWall(col, row);
 							break;
 						case 3:
 							makeEnd(b[row][col]);
 							endStart[1][0] = row;
 							endStart[1][1] = col;
+							if (checkWall(col, row)) removeWall(col, row);
 							break;
 						case 4:
 							makeReg(b[row][col], row, col);
+							if (checkWall(col, row)) removeWall(col, row);
 							break;
 					}
 				}
