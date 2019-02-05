@@ -98,11 +98,6 @@ public class Pathfinder extends JFrame implements ActionListener {
 		{
 			// TODO : ADD DIAGANOLS
 			
-			if (currentButton [0][0] == endStart[1][0] && currentButton [0][1] == endStart[1][1]){
-				fin = true;
-				continue;
-			}
-			
 		double distanceRight = Math.sqrt(((currentButton[0][1] + 1 - endStart[1][1]) * (currentButton[0][1] + 1 - endStart[1][1])) + ((currentButton[0][0] - endStart[1][0]) * (currentButton[0][0] - endStart[1][0])));
 		double distanceLeft =  Math.sqrt(((currentButton[0][1] - 1 - endStart[1][1]) * (currentButton[0][1] - 1 - endStart[1][1])) + ((currentButton[0][0] - endStart[1][0]) * (currentButton[0][0] - endStart[1][0])));
 		double distanceTop =  Math.sqrt(((currentButton[0][1] - endStart[1][1]) * (currentButton[0][1] + 1 - endStart[1][1])) + ((currentButton[0][0] + 1 - endStart[1][0]) * (currentButton[0][0] - endStart[1][0])));
@@ -128,6 +123,12 @@ public class Pathfinder extends JFrame implements ActionListener {
 			break;
 		}
 		
+						
+			if (currentButton [0][0] == endStart[1][0] && currentButton [0][1] == endStart[1][1]){
+				fin = true;
+				continue;
+			}
+			
 		System.out.println(currentButton[0][1] + "," + currentButton[0][0]);
 		b[currentButton[0][0]][currentButton[0][1]].setBackground(Color.BLUE);
 				}
