@@ -1,4 +1,5 @@
 # Visualizing Pathfinder
+- Finds the shortest distance between two nodes and visualizes it on the screen.
 
 # Description
 - Takes a start node & end node
